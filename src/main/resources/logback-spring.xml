@@ -3,7 +3,7 @@
 
     <springProperty name="logging.file.path" source="logging.file.path"/>
 
-    <property name="LOG_DIR" value="${user.home}${logging.file.path}" />
+    <property name="LOG_DIR" value="${user.home}/${logging.file.path}" />
     <property name="LOG_PATH_NAME" value="${LOG_DIR}/app.log" />
 
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
