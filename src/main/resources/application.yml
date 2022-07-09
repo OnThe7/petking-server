@@ -56,6 +56,6 @@ spring:
 logging:
   level:
     org.springframework: info
-    io.lpin.kdn: debug
+    com.onthe7.petking: debug
   file:
     path: /LogFiles
