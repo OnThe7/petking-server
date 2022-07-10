@@ -66,7 +66,7 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
         log.debug("[url]" + uri);
 
         try {
-            String token = getToken(request);
+            String token = jwtUtil.getToken(request);
 
             if (token != null && jwtUtil.validateJwtToken(token)) {
 
@@ -103,20 +103,6 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
 
         log.info("JWT Token Authenticated");
         filterChain.doFilter(request, response);
-    }
-
-    private String getToken(HttpServletRequest request) {
-        String authorization = request.getHeader("Authorization");
-
-        if (authorization == null) {
-            throw new JwtException.JwtNotFountException();
-        }
-
-        if (authorization.startsWith("Bearer ")) {
-            return authorization.replace("Bearer ", "");
-        }
-
-        return authorization;
     }
 
 }

@@ -9,8 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import java.util.Base64;
+import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -30,6 +29,20 @@ public class JwtUtil {
             return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get(field);
         }
         return null;
+    }
+
+    public String getToken(HttpServletRequest request) {
+        String authorization = request.getHeader("Authorization");
+
+        if (authorization == null) {
+            throw new JwtException.JwtNotFountException();
+        }
+
+        if (authorization.startsWith("Bearer ")) {
+            return authorization.replace("Bearer ", "");
+        }
+
+        return authorization;
     }
 
     // 토큰 유효성 검사
