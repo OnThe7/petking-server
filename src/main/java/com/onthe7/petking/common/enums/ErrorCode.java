@@ -8,6 +8,9 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum ErrorCode {
 
+    USER_EMAIL_NOT_VERIFIED(HttpStatus.NOT_FOUND, "이메일 인증이 필요합니다"),
+    USER_NOT_LOGGED_IN(HttpStatus.UNAUTHORIZED, "로그인이 필요합니다"),
+
     // 400
     CLIENT_ERROR(HttpStatus.BAD_REQUEST, "잘못된 요청입니다."),
 
@@ -20,6 +23,7 @@ public enum ErrorCode {
 
     // 500
     COMMON_SYSTEM_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버에러가 발생했습니다.");
+
 
     private final HttpStatus httpStatus;
     private final String message;
