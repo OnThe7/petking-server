@@ -1,6 +1,6 @@
 package com.onthe7.petking.common.handler;
 
-import com.onthe7.petking.common.enums.ErrorCode;
+//import com.onthe7.petking.common.enums.ErrorCode;
 import com.onthe7.petking.common.exception.BusinessException;
 import com.onthe7.petking.common.vo.ErrorResponse;
 import com.onthe7.petking.common.vo.Response;
@@ -16,9 +16,9 @@ public class CustomGlobalExceptionHandler {
         return Response.error(errorResponse);
     }
 
-    @ExceptionHandler(value = {RuntimeException.class})
-    protected Response processError() {
-        ErrorResponse errorResponse = ErrorResponse.from(ErrorCode.COMMON_SYSTEM_ERROR);
-        return Response.error(errorResponse);
-    }
+//    @ExceptionHandler(value = {RuntimeException.class})
+//    protected Response processError() {
+//        ErrorResponse errorResponse = ErrorResponse.from(ErrorCode.COMMON_SYSTEM_ERROR);
+//        return Response.error(errorResponse);
+//    }
 }

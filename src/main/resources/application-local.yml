@@ -37,9 +37,20 @@ spring:
     init:
       encoding: UTF-8
 
-logging:
-  level:
-    org.springframework: info
-    com.onthe7.petking: debug
-  file:
-    path: /LogFiles
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 909362200876-dpe2kdq02ahj8cn1030mut6p2db5rnrl.apps.googleusercontent.com
+            client-secret: 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
+            scope:
+              - email
+              - profile
+
+#logging:
+#  level:
+#    org.springframework: info
+#    com.onthe7.petking: debug
+#  file:
+#    path: /LogFiles
