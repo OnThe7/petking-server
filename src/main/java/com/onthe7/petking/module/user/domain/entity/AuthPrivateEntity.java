@@ -33,6 +33,8 @@ public class AuthPrivateEntity extends BaseEntity {
 
     private String password;
 
+    private String principalId;
+
     @Enumerated(STRING)
     private AuthProviderType provider;
 

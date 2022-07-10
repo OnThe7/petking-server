@@ -28,9 +28,13 @@ public class OauthFilter implements Filter {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth instanceof OAuth2AuthenticationToken) {
             OAuth2AuthenticationToken authToken = (OAuth2AuthenticationToken) auth;
-            AuthProviderType authProviderType = AuthProviderType.from(authToken.getAuthorizedClientRegistrationId());
-            String email = (String) authToken.getPrincipal().getAttributes().get("email");
-            UserEntity user = securityUserService.loadUser(email, authProviderType);
+            // kakao - principal.attributes.id
+            // nickname = principal.attributes.properties.nickname
+            // email = principal.attributes.kakao_account.email
+            // google - principal.attributes.sub
+            // nickname = principal.attributes.given_name+something
+            // email = principal.attributes.email
+            UserEntity user = securityUserService.loadUser(authToken);
             SecurityContextHolder.getContext()
                     .setAuthentication(new UsernamePasswordAuthenticationToken(
                             user.getClientId(), null, List.of(user.getRole())));

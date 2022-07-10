@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS tbl_auth_private
     user_id                 BIGINT UNSIGNED                                                             NOT NULL COMMENT 'tbl_user.id',
 
     -- columns
+    principal_id            VARCHAR(100)                                                                    NULL,
     email                   VARCHAR(100)                                                                    NULL COMMENT 'User email',
     password                VARCHAR(255)                                                                    NULL COMMENT 'password',
     provider                VARCHAR(255)                                                                    NULL COMMENT 'PASSWORD / OAUTH_GOOGLE / WALLET',
