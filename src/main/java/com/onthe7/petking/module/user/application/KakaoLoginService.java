@@ -24,28 +24,6 @@ import java.io.IOException;
 @Service
 public class KakaoLoginService {
 
-    @Getter
-    @Setter
-    @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-    public static class ResponseDto {
-        private String tokenType;
-
-        private String accessToken;
-
-        private Long expiresIn;
-
-        private String idToken;
-
-        @JsonInclude(JsonInclude.Include.NON_NULL)
-        private String scope;
-
-        @JsonInclude(JsonInclude.Include.NON_NULL)
-        private String refreshToken;
-
-        @JsonInclude(JsonInclude.Include.NON_NULL)
-        private Long refreshTokenExpiresIn;
-    }
-
     @Value("${kakao.api-key}")
     private String REST_API_KEY;
 
@@ -59,8 +37,7 @@ public class KakaoLoginService {
     private String CALLBACK_URI;
 
     // https://kauth.kakao.com/oauth/token
-    public ResponseDto getAccessToken(String code) throws IOException {
-
+    public KakaoTokenDto getAccessToken(String code) throws IOException {
         OkHttpClient client = new OkHttpClient().newBuilder().build();
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -77,25 +54,24 @@ public class KakaoLoginService {
                 .addHeader("content-type", "application/x-www-form-urlencoded")
                 .build();
 
-        ResponseDto responseDto = null;
+        KakaoTokenDto kakaoTokenDto = null;
 
         okhttp3.Response httpResponse = client.newCall(request).execute();
 
         if (httpResponse.isSuccessful() == true) {
             String responseBody = httpResponse.body().string();
             log.debug("[Response Body] " + responseBody);
-            responseDto = objectMapper.readValue(responseBody, ResponseDto.class);
+            kakaoTokenDto = objectMapper.readValue(responseBody, KakaoTokenDto.class);
 
         } else {
             throw new JwtException.JwtCreatedFailedException();
         }
 
-        return responseDto;
+        return kakaoTokenDto;
     }
 
     // https://kauth.kakao.com/oauth/token
-    public ResponseDto refreshAccessToken(String refreshToken) throws IOException {
-
+    public KakaoTokenDto refreshAccessToken(String refreshToken) throws IOException {
         OkHttpClient client = new OkHttpClient().newBuilder().build();
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -111,14 +87,14 @@ public class KakaoLoginService {
                 .addHeader("content-type", "application/x-www-form-urlencoded")
                 .build();
 
-        ResponseDto responseDto = null;
+        KakaoTokenDto kakaoTokenDto = null;
 
         okhttp3.Response httpResponse = client.newCall(request).execute();
 
         if (httpResponse.isSuccessful() == true) {
             String responseBody = httpResponse.body().string();
             log.debug("[Response Body] " + responseBody);
-            responseDto = objectMapper.readValue(responseBody, ResponseDto.class);
+            kakaoTokenDto = objectMapper.readValue(responseBody, KakaoTokenDto.class);
 
         } else {
             throw new JwtException.JwtCreatedFailedException();

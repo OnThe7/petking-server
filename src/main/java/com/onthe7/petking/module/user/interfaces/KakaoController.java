@@ -3,6 +3,8 @@ package com.onthe7.petking.module.user.interfaces;
 import com.onthe7.petking.common.util.RequestIdGenerator;
 import com.onthe7.petking.common.vo.Response;
 import com.onthe7.petking.module.user.application.KakaoLoginService;
+import com.onthe7.petking.module.user.domain.dto.KakaoTokenDto;
+import com.onthe7.petking.module.user.domain.dto.KakaoUserInfoDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -42,7 +44,7 @@ public class KakaoController {
     public ResponseEntity<Response> getKakaoAccessToken(@RequestParam String code) throws IOException {
         String requestId = requestIdGenerator.getRequestId();
 
-        KakaoLoginService.ResponseDto result = kakaoLoginService.getAccessToken(code);
+        KakaoTokenDto result = kakaoLoginService.getAccessToken(code);
         return ResponseEntity.ok(Response.success(requestId, result));
     }
 
@@ -53,7 +55,7 @@ public class KakaoController {
     public ResponseEntity<Response> refreshAccessToken(@RequestParam String refreshToken) throws IOException {
         String requestId = requestIdGenerator.getRequestId();
 
-        KakaoLoginService.ResponseDto result = kakaoLoginService.refreshAccessToken(refreshToken);
+        KakaoTokenDto result = kakaoLoginService.refreshAccessToken(refreshToken);
         return ResponseEntity.ok(Response.success(requestId, result));
     }
 
