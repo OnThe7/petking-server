@@ -1,4 +1,4 @@
-package com.onthe7.petking.module.sample.interfaces;
+package com.onthe7.petking.common.interfaces;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
