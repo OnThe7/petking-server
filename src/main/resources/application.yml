@@ -10,3 +10,8 @@ spring:
     web:
       pageable:
         one-indexed-parameters: true
+
+kakao:
+  endpoint: https://kauth.kakao.com
+  api-key: "9d51e4a8826ac06ed399457a814220ac"
+  nonce-hash: "96efbc43a462ab9d9c6a8173e5b322e17f218b56eb3a05a4bbc53221adebc7b3" # kkk sha-256

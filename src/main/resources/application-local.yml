@@ -43,3 +43,6 @@ logging:
     com.onthe7.petking: debug
   file:
     path: /LogFiles
+
+kakao:
+  callback-uri: http://localhost:8081/kakao/token
