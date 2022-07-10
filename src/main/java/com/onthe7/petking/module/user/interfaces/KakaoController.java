@@ -51,7 +51,7 @@ public class KakaoController {
     /**
      * 토큰 갱신
      */
-    @PostMapping("/refresh-token")
+    @PostMapping("/token/refresh")
     public ResponseEntity<Response> refreshAccessToken(@RequestParam String refreshToken) throws IOException {
         String requestId = requestIdGenerator.getRequestId();
 
