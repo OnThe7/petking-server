@@ -49,10 +49,13 @@ public class KakaoLoginService {
     @Value("${kakao.api-key}")
     private String REST_API_KEY;
 
-    @Value("${kakao.endpoint}")
-    private String ENDPOINT;
+    @Value("${kakao.endpoint.oauth}")
+    private String OAUTH_ENDPOINT;
 
-    @Value("${kakao.callback-uri}")
+    @Value("${kakao.endpoint.user}")
+    private String USER_ENDPOINT;
+
+    @Value("${kakao.endpoint.oauth-callback}")
     private String CALLBACK_URI;
 
     // https://kauth.kakao.com/oauth/token
@@ -69,7 +72,7 @@ public class KakaoLoginService {
                 .build();
 
         Request request = new Request.Builder()
-                .url(ENDPOINT + "/oauth/token")
+                .url(OAUTH_ENDPOINT + "/oauth/token")
                 .post(formBody)
                 .addHeader("content-type", "application/x-www-form-urlencoded")
                 .build();
@@ -103,7 +106,7 @@ public class KakaoLoginService {
                 .build();
 
         Request request = new Request.Builder()
-                .url(ENDPOINT + "/oauth/token")
+                .url(OAUTH_ENDPOINT + "/oauth/token")
                 .post(formBody)
                 .addHeader("content-type", "application/x-www-form-urlencoded")
                 .build();

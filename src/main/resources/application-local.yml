@@ -45,4 +45,5 @@ logging:
     path: /LogFiles
 
 kakao:
-  callback-uri: http://localhost:8081/kakao/token
+  endpoint:
+    oauth-callback: http://localhost:8081/kakao/token
