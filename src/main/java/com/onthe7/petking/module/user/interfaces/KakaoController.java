@@ -1,5 +1,6 @@
 package com.onthe7.petking.module.user.interfaces;
 
+import com.onthe7.petking.common.util.JwtUtil;
 import com.onthe7.petking.common.util.RequestIdGenerator;
 import com.onthe7.petking.common.vo.Response;
 import com.onthe7.petking.module.user.application.KakaoLoginService;
@@ -10,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @RestController
@@ -20,6 +22,7 @@ public class KakaoController {
 
     private final KakaoLoginService kakaoLoginService;
     private final RequestIdGenerator requestIdGenerator;
+    private final JwtUtil jwtUtil;
 
     /**
      * 인가 code 요청
@@ -56,6 +59,18 @@ public class KakaoController {
         String requestId = requestIdGenerator.getRequestId();
 
         KakaoTokenDto result = kakaoLoginService.refreshAccessToken(refreshToken);
+        return ResponseEntity.ok(Response.success(requestId, result));
+    }
+
+    /**
+     * 사용자 정보 요청
+     */
+    @GetMapping("/user")
+    public ResponseEntity<Response> getUserInfo(HttpServletRequest httpServletRequest) throws IOException {
+        String requestId = requestIdGenerator.getRequestId();
+        String accessToken = jwtUtil.getToken(httpServletRequest);
+
+        KakaoUserInfoDto result = kakaoLoginService.getUserInfo(accessToken);
         return ResponseEntity.ok(Response.success(requestId, result));
     }
 

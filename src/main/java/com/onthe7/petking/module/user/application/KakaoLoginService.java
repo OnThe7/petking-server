@@ -1,14 +1,12 @@
 package com.onthe7.petking.module.user.application;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.onthe7.petking.common.enums.GrantType;
 import com.onthe7.petking.common.exception.JwtException;
-import lombok.Getter;
+import com.onthe7.petking.common.exception.UserException;
+import com.onthe7.petking.module.user.domain.dto.KakaoTokenDto;
+import com.onthe7.petking.module.user.domain.dto.KakaoUserInfoDto;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -100,7 +98,33 @@ public class KakaoLoginService {
             throw new JwtException.JwtCreatedFailedException();
         }
 
-        return responseDto;
+        return kakaoTokenDto;
+    }
+
+    // https://kapi.kakao.com/v2/user/me
+    public KakaoUserInfoDto getUserInfo(String accessToken) throws IOException {
+        OkHttpClient client = new OkHttpClient().newBuilder().build();
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Request request = new Request.Builder()
+                .url(USER_ENDPOINT + "/v2/user/me")
+                .addHeader("Authorization", String.format("Bearer %s", accessToken))
+                .build();
+
+        KakaoUserInfoDto kakaoUserInfoDto = null;
+
+        okhttp3.Response httpResponse = client.newCall(request).execute();
+
+        if (httpResponse.isSuccessful() == true) {
+            String responseBody = httpResponse.body().string();
+            log.debug("[Response Body] " + responseBody);
+            kakaoUserInfoDto = objectMapper.readValue(responseBody, KakaoUserInfoDto.class);
+
+        } else {
+            throw new UserException.UserNotFoundException();
+        }
+
+        return kakaoUserInfoDto;
     }
 
 }
