@@ -1,6 +1,5 @@
 package com.onthe7.petking.common.filter;
 
-import com.onthe7.petking.common.exception.JwtException;
 import com.onthe7.petking.common.util.JwtUtil;
 import com.onthe7.petking.module.user.domain.dto.UserTokenDto;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -44,7 +43,7 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
 
         // 다음으로 시작하는 uri는 토큰검증x
         String[] startWith = {
-                "/login",
+                "/kakao",
                 "/error"
         };
 
