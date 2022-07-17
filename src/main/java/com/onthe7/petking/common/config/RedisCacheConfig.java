@@ -1,5 +1,6 @@
 package com.onthe7.petking.common.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
@@ -23,29 +24,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
+@RequiredArgsConstructor
 @EnableRedisRepositories
 @EnableCaching(proxyTargetClass = true)
 public class RedisCacheConfig extends CachingConfigurerSupport {
 
-    @Value("${spring.redis.host}")
-    private String REDIS_HOST;
-
-    @Value("${spring.redis.port}")
-    private int REDIS_PORT;
-
-    @Value("${spring.redis.password}")
-    private String REDIS_PASSWORD;
-
-    @Value("${spring.redis.ssl}")
-    private Boolean REDIS_SSL;
+    private final AppProperties appProperties;
 
     @Bean
     public RedisConnectionFactory cacheRedisConnectionFactory() {
-        RedisStandaloneConfiguration standaloneConfiguration = new RedisStandaloneConfiguration(REDIS_HOST, REDIS_PORT);
-        standaloneConfiguration.setPassword(REDIS_PASSWORD);
+        RedisStandaloneConfiguration standaloneConfiguration = new RedisStandaloneConfiguration(
+                appProperties.getRedisHost(), appProperties.getRedisPort());
+
+        standaloneConfiguration.setPassword(appProperties.getRedisPassword());
         LettuceClientConfiguration.LettuceClientConfigurationBuilder builder = LettuceClientConfiguration.builder();
 
-        if (REDIS_SSL) {
+        if (appProperties.isUseSSl()) {
             builder.useSsl();
         }
         return new LettuceConnectionFactory(standaloneConfiguration, builder.build());
