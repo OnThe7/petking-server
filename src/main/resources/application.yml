@@ -10,3 +10,9 @@ spring:
     web:
       pageable:
         one-indexed-parameters: true
+app:
+  auth:
+    tokenIssuer: dangs_load_server_token_issuer
+    tokenSecret: 54C77CCD79BDE584FA3E77CBA09EA460
+    tokenExpiry: 1800000
+    refreshTokenExpiry: 604800000
