@@ -20,6 +20,7 @@ public class AuthController {
 
     private final RequestIdGenerator requestIdGenerator;
     private final AuthFacade authFacade;
+    private final SecurityUserService securityUserService;
 
     @PostMapping("/signup")
     public Response signUp(@RequestBody UserSignUpDto userSignUpDto) {
@@ -40,5 +41,14 @@ public class AuthController {
     public Response reissueToken(@RequestBody ReissueTokenDto reissueTokenDto) {
         String requestId = requestIdGenerator.getRequestId();
         return Response.success(requestId, authFacade.reissueToken(reissueTokenDto));
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/sample")
+    public Response look() {
+        String requestId = requestIdGenerator.getRequestId();
+        String principalId = securityUserService.getPrincipalIdBySecurityContext();
+        AuthDto.UserCredentialDto userCredential = securityUserService.getUserCredentialByPrincipalId(principalId);
+        return Response.success(requestId, userCredential);
     }
 }
