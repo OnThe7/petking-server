@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+  redis:
+    image: redis:5
+    container_name: redis
+    restart: always
+    network_mode: bridge
+    volumes:
+      - ./script/docker-redis/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./script/docker-redis/prod.conf:/usr/local/etc/redis/prod.conf
+    ports:
+      - 6379:6379
+    expose:
+      - 6379
+    command: redis-server /usr/local/etc/redis/redis.conf
+    depends_on:
+      - helper
+    sysctls:
+      - net.core.somaxconn=511
+  helper:
+    container_name: helper
+    image: alpine
+    command: sh -c "echo never > /sys/kernel/mm/transparent_hugepage/enabled"
+    privileged: true
