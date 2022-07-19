@@ -15,5 +15,7 @@ public interface AuthPrivateRepository extends JpaRepository<AuthPrivateEntity, 
 
     Optional<AuthPrivateEntity> findByEmailAndProvider(String email, AuthProviderType provider);
 
+    Optional<AuthPrivateEntity> findByPrincipalIdAndProvider(String principalId, AuthProviderType provider);
+
     Optional<AuthPrivateEntity> findByUserAndProvider(UserEntity user, AuthProviderType provider);
 }

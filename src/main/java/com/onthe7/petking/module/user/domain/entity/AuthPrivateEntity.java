@@ -3,6 +3,7 @@ package com.onthe7.petking.module.user.domain.entity;
 import com.onthe7.petking.common.domain.entity.BaseEntity;
 import com.onthe7.petking.common.enums.AuthProviderType;
 import com.onthe7.petking.common.enums.YesNo;
+import com.onthe7.petking.module.user.domain.dto.AuthDto.UserSignUpDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -26,9 +27,6 @@ public class AuthPrivateEntity extends BaseEntity {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @Column(name = "user_id")
-    private Long userId;
-
     private String email;
 
     private String password;
@@ -36,11 +34,21 @@ public class AuthPrivateEntity extends BaseEntity {
     @Enumerated(STRING)
     private AuthProviderType provider;
 
+    private String principalId;
+
+
     @Enumerated(STRING)
-    private YesNo emailVerified;
+    private YesNo verified;
 
     @ToString.Exclude
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    @JoinColumn(name = "user_id")
     private UserEntity user;
+
+    public static AuthPrivateEntity createOAuthPrivateEntity(UserSignUpDto userSignUpDto, UserEntity user) {
+        return AuthPrivateEntity.builder()
+                .email(userSignUpDto.getEmail()).principalId(userSignUpDto.getPrincipalId())
+                .provider(userSignUpDto.getProvider()).verified(YesNo.Y)
+                .user(user).build();
+    }
 }

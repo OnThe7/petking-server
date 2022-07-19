@@ -9,8 +9,8 @@ public enum AuthProviderType {
     OAUTH_GOOGLE("OAUTH_GOOGLE", "google"),
     OAUTH_KAKAO("OAUTH_KAKAO", "kakao");
 
-    private String name;
-    private String registrationId;
+    private final String name;
+    private final String registrationId;
 
     public static AuthProviderType from(String registrationId) {
         if (registrationId.equals(PASSWORD.getRegistrationId())){

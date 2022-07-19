@@ -23,4 +23,10 @@ public class UserException {
             super(ErrorCode.USER_NOT_LOGGED_IN);
         }
     }
+
+    public static class UserAlreadySignedUpException extends BusinessException {
+        public UserAlreadySignedUpException() {
+            super(ErrorCode.USER_ALREADY_SINGED_UP);
+        }
+    }
 }
